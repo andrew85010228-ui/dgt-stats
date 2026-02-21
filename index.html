@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #121212; color: #e0e0e0; text-align: center; margin: 0; padding: 20px; }
+    h1 { color: #f39c12; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+    .card { background: #1e1e1e; margin: 20px auto; padding: 25px; border-radius: 15px; border-left: 5px solid #f39c12; max-width: 900px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); transition: transform 0.2s; }
+    .card:hover { transform: translateY(-5px); }
+    .player-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+    .player-name { font-size: 1.8em; font-weight: bold; color: #f39c12; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px; }
+    .stat-box { background: #262626; padding: 12px; border-radius: 10px; border: 1px solid #333; }
+    .stat-label { color: #888; font-size: 0.7em; text-transform: uppercase; display: block; margin-bottom: 5px; }
+    .stat-value { font-size: 1.3em; font-weight: bold; color: #fff; }
+    .highlight { color: #2ecc71; }
+    .blue-stat { color: #3498db; }
+  </style>
+</head>
+<body>
+  <h1>⚔️ DGT TEAM ELITE STATS ⚔️</h1>
+  <div id="list">Adatok betöltése a PUBG szerveréről...</div>
+
+  <script>
+    google.script.run.withSuccessHandler(function(stats) {
+      var html = "";
+      stats.forEach(function(p) {
+        html += '<div class="card">' +
+                  '<div class="player-header">' +
+                    '<span class="player-name">' + p.name + '</span>' +
+                    '<span style="color:#f39c12">🏆 ' + p.wins + ' WINS</span>' +
+                  '</div>' +
+                  '<div class="stats-grid">' +
+                    '<div class="stat-box"><span class="stat-label">K/D</span><span class="stat-value highlight">' + p.kd + '</span></div>' +
+                    '<div class="stat-box"><span class="stat-label">Kills</span><span class="stat-value">' + p.kills + '</span></div>' +
+                    '<div class="stat-box"><span class="stat-label">Assists</span><span class="stat-value">' + p.assists + '</span></div>' +
+                    '<div class="stat-box"><span class="stat-label">Damage</span><span class="stat-value">' + p.damage + '</span></div>' +
+                    '<div class="stat-box"><span class="stat-label">Headshot</span><span class="stat-value">' + p.headshot + '</span></div>' +
+                    '<div class="stat-box"><span class="stat-label">Mentések</span><span class="stat-value blue-stat">' + p.revives + '</span></div>' +
+                    '<div class="stat-box"><span class="stat-label">Top 10</span><span class="stat-value">' + p.top10 + '</span></div>' +
+                    '<div class="stat-box"><span class="stat-label">Longest Kill</span><span class="stat-value">' + p.longest + '</span></div>' +
+                    '<div class="stat-box"><span class="stat-label">Meccsek</span><span class="stat-value">' + p.matches + '</span></div>' +
+                    '<div class="stat-box"><span class="stat-label">Kocsirombolás</span><span class="stat-value">' + p.vehicles + '</span></div>' +
+                  '</div>' +
+                '</div>';
+      });
+      document.getElementById('list').innerHTML = html;
+    }).getPlayerStats();
+  </script>
+</body>
+</html>
